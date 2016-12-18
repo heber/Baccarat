@@ -7,7 +7,7 @@ Created on Tue Nov 29 13:21:16 2016
 
 from PIL import Image
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 img=np.array(Image.open('../pic/bjl.bmp'))  
 
@@ -74,7 +74,7 @@ for y in range(im.size[0]):
         pix = im.getpixel((y,x))
         if pix == (255,255,255):
             num += 1
-    if(num >= (im.size[1] - first_row)/2):
+    if(num >= (im.size[1] - first_row)/3):
         white_cols.append(y)
         
 new_white_cols = []
@@ -94,5 +94,35 @@ for index in range(len(new_white_cols)):
     for col in range(new_white_cols[index], end_white_cols[index]):
         for x in range(im.size[1]):
             im2.putpixel((col, x), (255,255,255))
+            
+
+def find_color(img, lefttop, rightdown):
+    middle_row = (lefttop[1] + rightdown[1]) /2
+    num = 0
+    print "middle_row " + str(middle_row)
+    for col in range(lefttop[0], rightdown[0]+1):
+        pix = img.getpixel((col, middle_row))
+        print pix
+        if(pix == (255,0,0)):
+            num += 1
+            print "find"
+            
+def all_color(img, lefttop, rightdown):
+    for row in range(lefttop[1], rightdown[1] +1):
+        print "row " + str(row)
+        num = 0
+        for col in range(lefttop[0], rightdown[0]+1):
+            pix = img.getpixel((col, row))
+            print pix
+            if(pix == (255,0,0)):
+                num += 1
+                print "find"
+
+lefttop = (new_white_cols[1], new_white_rows[1])
+rightdown = (end_white_cols[1], end_white_rows[1])
+
+all_color(im, lefttop, rightdown)
+
+find_color(im, lefttop, rightdown)
 
 im2.show()
